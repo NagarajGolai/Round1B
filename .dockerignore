@@ -1,0 +1,4 @@
+output/
+*.pdf
+*.md
+__pycache__/ 
