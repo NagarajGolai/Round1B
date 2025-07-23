@@ -6,7 +6,7 @@ from transformers import LayoutLMTokenizer, LayoutLMForTokenClassification, Trai
 from sklearn.model_selection import train_test_split
 import ast
 
-MODEL_NAME = 'microsoft/layoutlmv1-base-uncased'
+MODEL_NAME = 'microsoft/layoutlm-base-uncased'
 LABELS = ['body', 'title', 'H1', 'H2', 'H3']
 LABEL2ID = {l: i for i, l in enumerate(LABELS)}
 ID2LABEL = {i: l for l, i in LABEL2ID.items()}
@@ -20,6 +20,10 @@ class PDFHeadingDataset(Dataset):
     def __getitem__(self, idx):
         row = self.df.iloc[idx]
         text = row['text']
+        if isinstance(text, str):
+            text_to_tokenize = text
+        else:
+            text_to_tokenize = [text]
         bbox = ast.literal_eval(row['bbox'])
         # Normalize bbox to 0-1000
         bbox = [
@@ -29,7 +33,7 @@ class PDFHeadingDataset(Dataset):
             int(bbox[3] / 842 * 1000)
         ]
         encoding = self.tokenizer(
-            text,
+            text_to_tokenize,
             padding='max_length',
             truncation=True,
             max_length=32,
@@ -57,7 +61,7 @@ def main():
         output_dir='./layoutlm_headings',
         per_device_train_batch_size=8,
         per_device_eval_batch_size=8,
-        num_train_epochs=3,
+        num_train_epochs=5,
         evaluation_strategy='epoch',
         save_strategy='epoch',
         logging_dir='./logs',
@@ -76,4 +80,4 @@ def main():
     print('Model fine-tuned and saved to ./layoutlm_headings')
 
 if __name__ == '__main__':
-    main() 
+    main()

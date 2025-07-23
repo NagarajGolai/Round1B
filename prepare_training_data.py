@@ -3,6 +3,7 @@ import fitz
 import json
 import csv
 import re
+from transformers import LayoutLMv2Processor
 
 def clean_text(text):
     text = text.strip()
@@ -22,69 +23,71 @@ def load_ideal_labels(json_path):
         headings[key] = h['level']
     return title, headings
 
-def extract_blocks(pdf_path):
+def extract_words_and_boxes(pdf_path):
     doc = fitz.open(pdf_path)
-    blocks = []
-    for page_num, page in enumerate(doc, 0):
+    words = []
+    boxes = []
+    page_map = []
+    for page_num, page in enumerate(doc):
         width, height = page.rect.width, page.rect.height
-        for block in page.get_text('dict')['blocks']:
-            if block['type'] != 0:
+        blocks = page.get_text("blocks")
+        for b in blocks:
+            x0, y0, x1, y1, text, block_no = b[:6]
+            if not text.strip():
                 continue
-            for line in block['lines']:
-                line_text = ' '.join([span['text'] for span in line['spans']]).strip()
-                if not line_text:
+            for word in text.split():
+                word = clean_text(word)
+                if not word:
                     continue
-                max_size = max(span['size'] for span in line['spans'])
-                is_bold = any('bold' in span['font'].lower() for span in line['spans'])
-                x0 = min(span['bbox'][0] for span in line['spans'])
-                y0 = min(span['bbox'][1] for span in line['spans'])
-                x1 = max(span['bbox'][2] for span in line['spans'])
-                y1 = max(span['bbox'][3] for span in line['spans'])
-                bbox = [int(x0), int(y0), int(x1), int(y1)]
-                blocks.append({
-                    'page': page_num,
-                    'text': clean_text(line_text),
-                    'bbox': bbox,
-                    'font_size': max_size,
-                    'bold': is_bold
-                })
-    return blocks
+                words.append(word)
+                # Approximate bbox for each word using block bbox
+                boxes.append([int(x0), int(y0), int(x1), int(y1)])
+                page_map.append(page_num)
+    return words, boxes, page_map
 
 def main():
     input_dir = 'input'
     ideal_dir = 'ideal_output'
     out_csv = 'training_data.csv'
     rows = []
+    processed_files = 0
     for pdf_file in os.listdir(input_dir):
         if not pdf_file.lower().endswith('.pdf'):
             continue
         base = os.path.splitext(pdf_file)[0]
         ideal_json = os.path.join(ideal_dir, base + '.json')
         if not os.path.exists(ideal_json):
+            print(f"Warning: No ideal output JSON for {pdf_file}")
             continue
+        processed_files += 1
         title, headings = load_ideal_labels(ideal_json)
-        blocks = extract_blocks(os.path.join(input_dir, pdf_file))
-        for block in blocks:
+        words, boxes, page_map = extract_words_and_boxes(os.path.join(input_dir, pdf_file))
+        file_rows = 0
+        for word, box, page_num in zip(words, boxes, page_map):
             label = 'body'
-            if (block['text'], block['page']) in headings:
-                label = headings[(block['text'], block['page'])]
-            elif block['text'] == title:
+            clean_word = clean_text(word)
+            key = (clean_word, page_num)
+            if key in headings:
+                label = headings[key]
+            elif clean_word == title:
                 label = 'title'
             rows.append({
                 'pdf': pdf_file,
-                'page': block['page'],
-                'text': block['text'],
-                'bbox': block['bbox'],
-                'font_size': block['font_size'],
-                'bold': block['bold'],
+                'page': page_num,
+                'text': clean_word,
+                'bbox': box,
                 'label': label
             })
+            file_rows += 1
+        print(f"Processed {pdf_file}: {file_rows} rows")
     with open(out_csv, 'w', newline='', encoding='utf-8') as f:
-        writer = csv.DictWriter(f, fieldnames=['pdf', 'page', 'text', 'bbox', 'font_size', 'bold', 'label'])
+        fieldnames = ['pdf', 'page', 'text', 'bbox', 'label']
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         for row in rows:
             writer.writerow(row)
+    print(f"Processed {processed_files} files")
     print(f"Wrote {len(rows)} rows to {out_csv}")
 
 if __name__ == '__main__':
-    main() 
+    main()

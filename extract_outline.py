@@ -30,18 +30,6 @@ def is_meaningful_heading(text):
         return False
     return True
 
-def cluster_font_sizes(sizes):
-    sizes = sorted(set(sizes), reverse=True)
-    if not sizes:
-        return []
-    clusters = [[sizes[0]]]
-    for s in sizes[1:]:
-        if abs(s - clusters[-1][0]) > 1.5:
-            clusters.append([s])
-        else:
-            clusters[-1].append(s)
-    return [np.mean(c) for c in clusters]
-
 def is_form_page(blocks):
     short_lines = sum(1 for b in blocks if len(b['text']) < 30)
     return len(blocks) > 20 and short_lines / max(len(blocks), 1) > 0.7
@@ -84,19 +72,36 @@ def extract_title(blocks):
     title_lines = sorted(title_lines, key=lambda b: b['y'])
     if not title_lines:
         return None
-    return '  '.join(b['text'] for b in title_lines)
+    # Join with single space and strip extra spaces
+    title = ' '.join(b['text'] for b in title_lines)
+    title = re.sub(r'\s+', ' ', title).strip()
+    return title
 
 def extract_outline(pdf_path):
     blocks = extract_blocks(pdf_path)
-    sizes = [b['font_size'] for b in blocks]
-    font_clusters = cluster_font_sizes(sizes)
-    size_to_level = {}
-    if font_clusters:
-        size_to_level[font_clusters[0]] = 'H1'
-        if len(font_clusters) > 1:
-            size_to_level[font_clusters[1]] = 'H2'
-        if len(font_clusters) > 2:
-            size_to_level[font_clusters[2]] = 'H3'
+
+    # Load thresholds
+    try:
+        with open('heading_thresholds.json', 'r', encoding='utf-8') as f:
+            thresholds = json.load(f)
+    except Exception:
+        thresholds = {}
+
+    def get_level(size):
+        # Determine heading level based on thresholds
+        if not thresholds:
+            return None
+        if size >= thresholds.get('title', float('inf')):
+            return 'title'
+        elif size >= thresholds.get('H1', float('inf')):
+            return 'H1'
+        elif size >= thresholds.get('H2', float('inf')):
+            return 'H2'
+        elif size >= thresholds.get('H3', float('inf')):
+            return 'H3'
+        else:
+            return None
+
     seen = set()
     outline = []
     title = extract_title(blocks)
@@ -109,9 +114,8 @@ def extract_outline(pdf_path):
         if not is_meaningful_heading(text):
             continue
         size = b['font_size']
-        closest = min(font_clusters, key=lambda c: abs(size - c)) if font_clusters else size
-        level = size_to_level.get(closest)
-        if not level:
+        level = get_level(size)
+        if not level or level == 'title':
             continue
         key = (text.lower(), level)
         if key in seen or text == title:
@@ -142,4 +146,4 @@ def main():
             json.dump(result, f, ensure_ascii=False, indent=2)
 
 if __name__ == '__main__':
-    main() 
+    main()
