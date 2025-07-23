@@ -1,0 +1,510 @@
+{
+  "title": "英語から⽇本語に翻訳 - www.onlinedoctranslator.com",
+  "outline": [
+    {
+      "level": "H1",
+      "text": "「点をつなぐ」チャレンジへようこそ",
+      "page": 1
+    },
+    {
+      "level": "H3",
+      "text": "読書を再考し、知識を再発⾒する",
+      "page": 1
+    },
+    {
+      "level": "H3",
+      "text": "PDFを開くたびに、そこに座って-それあなたに話しかけた、 関連するアイデア、 そ",
+      "page": 1
+    },
+    {
+      "level": "H3",
+      "text": "してナレーションされた意味ライブラリ全体にわたってですか?",
+      "page": 1
+    },
+    {
+      "level": "H3",
+      "text": "の中で 点をつなぐチャレンジ あなたの使命は、PDFをインテリジェントでインタ",
+      "page": 1
+    },
+    {
+      "level": "H3",
+      "text": "ラクティブな体験として再創造することです。 構造を理解する 、 洞察を明らか",
+      "page": 1
+    },
+    {
+      "level": "H3",
+      "text": "にする 、そして応答する あなたへ 信頼できる研究仲間のように。",
+      "page": 1
+    },
+    {
+      "level": "H3",
+      "text": "これからの旅",
+      "page": 1
+    },
+    {
+      "level": "H3",
+      "text": "⾏間を読む時が来ました。点と点を繋ぎ、まるで 魔法 。 さあ⾏こ",
+      "page": 1
+    },
+    {
+      "level": "H1",
+      "text": "ラウンド1A: ドキュメントを理解する",
+      "page": 2
+    },
+    {
+      "level": "H3",
+      "text": "チャレンジテーマ: ドキュメントを通して点と点をつなぐ",
+      "page": 2
+    },
+    {
+      "level": "H3",
+      "text": "あなたの使命",
+      "page": 2
+    },
+    {
+      "level": "H3",
+      "text": "PDF⽂書を渡されますが、ただ読むのではなく、機械のように理解すること",
+      "page": 2
+    },
+    {
+      "level": "H3",
+      "text": "が求められます。あなたの仕事は、⽂書の構造化されたアウトライン、つま",
+      "page": 2
+    },
+    {
+      "level": "H3",
+      "text": "り タイトル 、そして次のような⾒出し H1 、 ⽔素 、 そして H3 —クリーンで階",
+      "page": 2
+    },
+    {
+      "level": "H3",
+      "text": "層的な形式で。",
+      "page": 2
+    },
+    {
+      "level": "H3",
+      "text": "この概要は 財団 ハッカソンの残りの旅のために。",
+      "page": 2
+    },
+    {
+      "level": "H3",
+      "text": "構築に必要なもの",
+      "page": 2
+    },
+    {
+      "level": "H3",
+      "text": "タイトル",
+      "page": 2
+    },
+    {
+      "level": "H3",
+      "text": "⾒出し: H1、H2、H3（レベルとページ番号付き）",
+      "page": 2
+    },
+    {
+      "level": "H3",
+      "text": "あなたには提供される",
+      "page": 2
+    },
+    {
+      "level": "H3",
+      "text": "1. A サンプル⼊⼒PDF （例：sample.pdf)",
+      "page": 2
+    },
+    {
+      "level": "H3",
+      "text": "3. サンプルDockerfile",
+      "page": 3
+    },
+    {
+      "level": "H3",
+      "text": "Dockerの要件",
+      "page": 3
+    },
+    {
+      "level": "H3",
+      "text": "GPU依存なし",
+      "page": 3
+    },
+    {
+      "level": "H3",
+      "text": "予想される実⾏",
+      "page": 3
+    },
+    {
+      "level": "H3",
+      "text": "次のコマンドを使⽤して Docker イメージをビルドします。",
+      "page": 3
+    },
+    {
+      "level": "H3",
+      "text": "`` d̀cker build --platform linux/amd64 -t",
+      "page": 3
+    },
+    {
+      "level": "H3",
+      "text": "mysolutionname:somerandomidentifier``",
+      "page": 3
+    },
+    {
+      "level": "H3",
+      "text": "イメージをビルドした後、送信された⼿順で指定された実⾏コマンドを使⽤",
+      "page": 3
+    },
+    {
+      "level": "H3",
+      "text": "してソリューションを実⾏します。",
+      "page": 3
+    },
+    {
+      "level": "H3",
+      "text": "`` d̀cker run --rm -v $(pwd)/input:/app/input -v $(pwd)/output:/app/output",
+      "page": 3
+    },
+    {
+      "level": "H3",
+      "text": "network none mysolutionname:somerandomidentifier``",
+      "page": 3
+    },
+    {
+      "level": "H3",
+      "text": "/app/input ディレクトリからすべての PDF を⾃動的に処理し、各",
+      "page": 3
+    },
+    {
+      "level": "H3",
+      "text": "filename.pdf に対応する filename.json を /app/output に⽣成しま",
+      "page": 3
+    },
+    {
+      "level": "H3",
+      "text": "出⼒.json",
+      "page": 3
+    },
+    {
+      "level": "H3",
+      "text": "採点基準",
+      "page": 4
+    },
+    {
+      "level": "H3",
+      "text": "マックス",
+      "page": 4
+    },
+    {
+      "level": "H3",
+      "text": "ポイント",
+      "page": 4
+    },
+    {
+      "level": "H3",
+      "text": "⽅位検出精度（精度 + 再現率）",
+      "page": 4
+    },
+    {
+      "level": "H3",
+      "text": "提出チェックリスト",
+      "page": 4
+    },
+    {
+      "level": "H3",
+      "text": "3. コンテナ内にインストールされたすべての依存関係",
+      "page": 4
+    },
+    {
+      "level": "H3",
+      "text": "ソリューションを構築して実⾏する⽅法（これは純粋に",
+      "page": 4
+    },
+    {
+      "level": "H3",
+      "text": "⾒出しレベルの決定にはフォント サイズだけに頼らないでください。",
+      "page": 4
+    },
+    {
+      "level": "H3",
+      "text": "⼀部の PDF の⾒出しではその前提が崩れます。",
+      "page": 4
+    },
+    {
+      "level": "H3",
+      "text": "ラウンド1B: ペルソナ主導のドキュメントインテリジェンス",
+      "page": 6
+    },
+    {
+      "level": "H3",
+      "text": "テーマ：「⼤切なものをつなぐ ― ⼤切なユーザーのために」",
+      "page": 6
+    },
+    {
+      "level": "H3",
+      "text": "チャレンジ概要（参加者向け）",
+      "page": 6
+    },
+    {
+      "level": "H3",
+      "text": "⼊⼒仕様",
+      "page": 6
+    },
+    {
+      "level": "H3",
+      "text": "2. ⽂書コレクション : 3〜10件の関連PDF ペルソナの定義 : 特定の",
+      "page": 6
+    },
+    {
+      "level": "H3",
+      "text": "専⾨知識と重点分野を含む役割の説明",
+      "page": 6
+    },
+    {
+      "level": "H3",
+      "text": "3. 完了すべき仕事 : ペルソナが達成する必要がある具体的なタスク",
+      "page": 6
+    },
+    {
+      "level": "H3",
+      "text": "⽂書はあらゆる分野のものが可能です (例: 研究論⽂、学校/",
+      "page": 6
+    },
+    {
+      "level": "H3",
+      "text": "⼤学の書籍、財務レポート、ニュース記事など)",
+      "page": 6
+    },
+    {
+      "level": "H3",
+      "text": "ペルソナも⾮常に多様です（例：研究者、学⽣、営業担当",
+      "page": 6
+    },
+    {
+      "level": "H3",
+      "text": "者、ジャーナリスト、起業家など）",
+      "page": 6
+    },
+    {
+      "level": "H3",
+      "text": "実⾏すべき仕事: これはペルソナに関連します (例: 特定のト",
+      "page": 6
+    },
+    {
+      "level": "H3",
+      "text": "ピックと⼊⼿可能な研究論⽂に関する⽂献レビューを提供す",
+      "page": 6
+    },
+    {
+      "level": "H3",
+      "text": "る、化学⽂書に基づいて有機化学について何を勉強すべきか、",
+      "page": 6
+    },
+    {
+      "level": "H3",
+      "text": "詳細な年度末財務報告書に基づいて企業 XYZ の財務を要約する",
+      "page": 6
+    },
+    {
+      "level": "H3",
+      "text": "など)。",
+      "page": 6
+    },
+    {
+      "level": "H3",
+      "text": "テストケース1: 学術研究",
+      "page": 6
+    },
+    {
+      "level": "H3",
+      "text": "⽂書 ：「創薬のためのグラフニューラルネットワーク」に関する4",
+      "page": 6
+    },
+    {
+      "level": "H3",
+      "text": "つの研究論⽂",
+      "page": 6
+    },
+    {
+      "level": "H3",
+      "text": "ペルソナ : 計算⽣物学博⼠研究員",
+      "page": 6
+    },
+    {
+      "level": "H3",
+      "text": "仕事 : 「⽅法論、データセット、パフォーマンスベンチマーク",
+      "page": 6
+    },
+    {
+      "level": "H3",
+      "text": "に焦点を当てた包括的な⽂献レビューを準備する」",
+      "page": 6
+    },
+    {
+      "level": "H3",
+      "text": "テストケース2: ビジネス分析",
+      "page": 7
+    },
+    {
+      "level": "H3",
+      "text": "⽂書 : 競合するテクノロジー企業からの3つの年次レポート（2022〜",
+      "page": 7
+    },
+    {
+      "level": "H3",
+      "text": "2024年）",
+      "page": 7
+    },
+    {
+      "level": "H3",
+      "text": "ペルソナ : 投資アナリスト",
+      "page": 7
+    },
+    {
+      "level": "H3",
+      "text": "仕事 : 「収益動向、研究開発投資、市場ポジショニング戦",
+      "page": 7
+    },
+    {
+      "level": "H3",
+      "text": "略を分析する」",
+      "page": 7
+    },
+    {
+      "level": "H3",
+      "text": "テストケース3: 教育コンテンツ",
+      "page": 7
+    },
+    {
+      "level": "H3",
+      "text": "⽂書 : 有機化学の教科書から5章",
+      "page": 7
+    },
+    {
+      "level": "H3",
+      "text": "ペルソナ : 学部化学専攻の学⽣",
+      "page": 7
+    },
+    {
+      "level": "H3",
+      "text": "仕事 ：「反応速度論の試験準備のための重要な概念とメカニズ",
+      "page": 7
+    },
+    {
+      "level": "H3",
+      "text": "ムを特定する」",
+      "page": 7
+    },
+    {
+      "level": "H3",
+      "text": "必要な出⼒",
+      "page": 7
+    },
+    {
+      "level": "H3",
+      "text": "出⼒JSON形式: 参照 チャレンジ1b_出⼒.json",
+      "page": 7
+    },
+    {
+      "level": "H3",
+      "text": "1. メタデータ",
+      "page": 7
+    },
+    {
+      "level": "H3",
+      "text": "a. ⼊⼒⽂書",
+      "page": 7
+    },
+    {
+      "level": "H3",
+      "text": "b. ペルソナ",
+      "page": 7
+    },
+    {
+      "level": "H3",
+      "text": "c. やるべき仕事",
+      "page": 7
+    },
+    {
+      "level": "H3",
+      "text": "d. 処理タイムスタンプ",
+      "page": 7
+    },
+    {
+      "level": "H3",
+      "text": "2. 抜粋",
+      "page": 7
+    },
+    {
+      "level": "H3",
+      "text": "a. ⽂書",
+      "page": 7
+    },
+    {
+      "level": "H3",
+      "text": "b. ページ番号",
+      "page": 7
+    },
+    {
+      "level": "H3",
+      "text": "d. 重要度ランク",
+      "page": 7
+    },
+    {
+      "level": "H3",
+      "text": "3. サブセクション分析",
+      "page": 7
+    },
+    {
+      "level": "H3",
+      "text": "d. ページ番号 制約",
+      "page": 7
+    },
+    {
+      "level": "H3",
+      "text": "処理時間≤60 秒 書類収集⽤（3〜5件）",
+      "page": 7
+    },
+    {
+      "level": "H3",
+      "text": "成果物",
+      "page": 8
+    },
+    {
+      "level": "H3",
+      "text": "approach_explanation.md（⽅法論を説明する300",
+      "page": 8
+    },
+    {
+      "level": "H3",
+      "text": "〜500語）",
+      "page": 8
+    },
+    {
+      "level": "H3",
+      "text": "Dockerfileと実⾏⼿順",
+      "page": 8
+    },
+    {
+      "level": "H3",
+      "text": "テスト⽤のサンプル⼊⼒/出⼒",
+      "page": 8
+    },
+    {
+      "level": "H3",
+      "text": "細分化されたサブセクションの抽",
+      "page": 8
+    },
+    {
+      "level": "H3",
+      "text": "出とランキングの品質",
+      "page": 8
+    },
+    {
+      "level": "H1",
+      "text": "https://github.com/jhaaj08/Adobe-India",
+      "page": 9
+    },
+    {
+      "level": "H1",
+      "text": "Hackathon25.git",
+      "page": 9
+    }
+  ]
+}

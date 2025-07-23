@@ -5,8 +5,8 @@ import re
 import numpy as np
 import shutil
 
-INPUT_DIR = '/app/input'
-OUTPUT_DIR = '/app/output'
+INPUT_DIR = 'input'
+OUTPUT_DIR = 'output'
 IDEAL_DIR = 'ideal_output'
 
 def clean_text(text):
