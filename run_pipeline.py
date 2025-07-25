@@ -79,12 +79,29 @@ def extract_outline(pdf_path):
     title = extract_title(blocks)
     if not title:
         title = os.path.splitext(os.path.basename(pdf_path))[0]
+    # Find top 3 font sizes on each page
+    page_font_sizes = {}
+    for b in blocks:
+        page_font_sizes.setdefault(b['page'], []).append(b['font_size'])
+    for page in page_font_sizes:
+        sizes = sorted(set(page_font_sizes[page]), reverse=True)
+        page_font_sizes[page] = sizes[:3]
+    prev_level = None
+    prev_text = None
+    prev_page = None
     for b in blocks:
         text = b['text']
         if not is_meaningful_heading(text):
             continue
+        # Only consider headings with top 3 font sizes on the page
+        if b['font_size'] not in page_font_sizes[b['page']]:
+            continue
+        # Only consider headings that are not too long and look like titles
+        if len(text.split()) > 10:
+            continue
+        if text.endswith('.') or text.endswith(',') or text.endswith(';'):
+            continue
         size = b['font_size']
-        # Simple heuristic for heading levels based on font size
         if size > 15:
             level = 'H1'
         elif size > 12:
@@ -98,12 +115,20 @@ def extract_outline(pdf_path):
         key = (text.lower(), level)
         if key in seen or text == title:
             continue
+        # Group consecutive headings of the same level
+        if prev_level == level and prev_page == b['page']:
+            prev_text += ' ' + text
+            outline[-1]['text'] = prev_text
+        else:
+            outline.append({
+                'level': level,
+                'text': text,
+                'page': b['page']
+            })
+            prev_text = text
+            prev_level = level
+            prev_page = b['page']
         seen.add(key)
-        outline.append({
-            'level': level,
-            'text': text,
-            'page': b['page']
-        })
     return {'title': title, 'outline': outline}
 
 def load_input_json(path):
@@ -144,6 +169,10 @@ def main():
 
     # Rank sections based on persona and job_to_be_done
     output = rank_sections(documents, persona, job_to_be_done, extracted_outlines, pdf_texts)
+
+    # Add processing timestamp to metadata
+    from datetime import datetime
+    output['metadata']['processing_timestamp'] = datetime.utcnow().isoformat()
 
     # Save output JSON
     save_output_json(output, OUTPUT_JSON)

@@ -1,4 +1,6 @@
 output/
-*.pdf
+#*.pdf
+.git/
+ideal_output/
 *.md
 __pycache__/ 
