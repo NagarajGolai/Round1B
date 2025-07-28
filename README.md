@@ -13,6 +13,12 @@ Job-to-be-Done: Concrete task the persona needs to accomplish
 
 Your system must generalize across different domains and personas.
 
+### 🛠️ Build Docker Image
+
+```bash
+docker build --platform linux/amd64 -t pdf-outline-extractor:latest .
+```
+
 ## Run with Docker
 ▶️ Step 1: Build the Docker Image
 Mac/Linux:
