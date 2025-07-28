@@ -39,6 +39,7 @@ docker run --rm -v "%cd%\input:/app/input" -v "%cd%\output:/app/output" round1b-
 ### Execution time :
 
 Docker build time : < 15 seconds
+
 Docker image run time : < 10 seconds
 
 ## Note :
