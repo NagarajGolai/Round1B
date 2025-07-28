@@ -20,22 +20,9 @@ docker build --platform linux/amd64 -t pdf-outline-extractor:latest .
 ```
 
 ## Run with Docker
-▶️ Step 1: Build the Docker Image
-Mac/Linux:
-
-bash Windows (PowerShell or CMD):
-```
-docker build -t round1b-pipeline .
-
-```
-
-powershell
-```
-docker build -t round1b-pipeline .
-```
 
 ###
-▶️ Step 2: Run the Pipeline
+▶️Run the Pipeline
 
 Mac/Linux:
 ```
